@@ -2,12 +2,14 @@
 name = "sxeme"
 version = "0.1.0"
 edition = "2021"
-author = ["evanmdrake@icloud.com"]
+author = ["Evan Drake <evanmdrake@icloud.com>"]
 description = "Scheme (r7rs) based compiler"
 documentation = "https://small.r7rs.org/attachment/r7rs.pdf"
 readme = "README.md"
-repository = ""
+repository = "https://github.com/snowmang1/sxeme.git"
 license = "MIT"
+license_file = "LICENSE"
+rust-version = "1.68.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
