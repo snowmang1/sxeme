@@ -38,3 +38,43 @@ fn scan_multi_lines() {
     assert_eq!(result, expected);
     cleanup("scanner_test_file3.txt");
 }
+
+#[test]
+fn ignore_line_comments() {
+    let result = feed_scanner_file("scanner_test_file4.txt", Some(String::from("; hello world!")));
+    let expected: Vec<String> = vec![];
+    assert_eq!(result, expected);
+    cleanup("scanner_test_file4.txt");
+}
+
+#[test]
+fn ignore_line_comments_with_output() {
+    let result = feed_scanner_file("scanner_test_file5.txt", Some(String::from("Sxeme is awesome ; hello world!")));
+    let expected: Vec<String> = vec![String::from("Sxeme"), String::from("is"), String::from("awesome")];
+    assert_eq!(result, expected);
+    cleanup("scanner_test_file5.txt");
+}
+
+#[test]
+fn ignore_block_comment() {
+    let result = feed_scanner_file("scanner_test_file6.txt", Some(String::from("#| hello world! \n this is a comment |#")));
+    let expected: Vec<String> = vec![];
+    assert_eq!(result, expected);
+    cleanup("scanner_test_file6.txt");
+}
+
+#[test]
+fn ignore_block_comment_with_output() {
+    let result = feed_scanner_file("scanner_test_file7.txt", Some(String::from("Sxeme is awesome #| hello world! \n this is a comment |#")));
+    let expected: Vec<String> = vec![String::from("Sxeme"), String::from("is"), String::from("awesome")];
+    assert_eq!(result, expected);
+    cleanup("scanner_test_file7.txt");
+}
+
+#[test]
+fn block_comment_repeat_octet() {
+    let result = feed_scanner_file("scanner_test_file8.txt", Some(String::from("#^ #! ########| nope |# #%")));
+    let expected: Vec<String> = vec![String::from("#^"), String::from("#!"), String::from("#######"), String::from("#%")];
+    assert_eq!(result, expected);
+    cleanup("scanner_test_file8.txt");
+}
