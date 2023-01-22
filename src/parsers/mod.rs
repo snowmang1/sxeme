@@ -1,4 +1,4 @@
 
-pub fn help() -> () {
+pub fn help() {
     println!("hello from parsers")
 }
