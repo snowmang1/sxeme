@@ -9,5 +9,5 @@ mod parsers;
 mod scanner;
 
 fn main() {
-    parsers::help();
+    unimplemented!();
 }

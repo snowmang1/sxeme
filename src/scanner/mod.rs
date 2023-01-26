@@ -14,8 +14,7 @@ use std::io::{ BufRead, BufReader };
 #[cfg(test)]
 mod tests;
 
-#[allow(dead_code)] /* temporary */
-fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error>{
+pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error>{
     let mut prog: Vec<String> = vec![];
     let mut comment: bool = false;
     let buf = BufReader::new(match File::open(filename) {
