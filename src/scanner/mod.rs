@@ -29,7 +29,7 @@ pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error>{
             false => {
                 // check comment
                 match line {
-                    Ok(s) if s.len() <= 0 => break,
+                    Ok(s) if s.is_empty() => break,
                     Err(err) => panic!("buf.lines Err: {err}"),
                     _        => {
                         let (v, temp_comment) = &mut filter_spaces(&line.unwrap()).to_owned();
@@ -43,7 +43,7 @@ pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error>{
     Ok(prog)
 }
 
-fn filter_spaces(str: &String) -> (Vec<String>, bool) {
+fn filter_spaces(str: &str) -> (Vec<String>, bool) {
     let mut ret: Vec<String> = Vec::new();  // vector of lexeme
     let mut word = String::new();           // lexeme buffer
     let mut comment_flag: u8 = 0;           // flag for block comments
@@ -64,7 +64,7 @@ fn filter_spaces(str: &String) -> (Vec<String>, bool) {
         }
     }
     match word.len() { // gaurd for trailing spaces
-        0 => (ret, match comment_flag { 2 => true, _ => false }),
-        _ => { ret.push(word.clone()); (ret, match comment_flag { 2 => true, _ => false }) }
+        0 => (ret, matches!( comment_flag, 2 )),
+        _ => { ret.push(word.clone()); (ret, matches!( comment_flag, 2 )) }
     }
 }
