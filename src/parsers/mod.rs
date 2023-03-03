@@ -8,7 +8,6 @@ use token_stack::TokenStack;
 use error_matrix::ParserErrors;
 
 // TODO
-// move types to own dir
 // move parsers to own file
 #[allow(dead_code)]
 fn parse_driver(prog_name: String) -> Result<(), ParserErrors>{
@@ -19,16 +18,19 @@ fn parse_driver(prog_name: String) -> Result<(), ParserErrors>{
     };
 
     // send to parsers
-    match arithmatic_parser(&mut prog, &mut stack) {
-        Err(_) => panic!("arithmatic Error: NEEDS PARSERERROR INTEGRATION"),
-        Ok(_)   => Ok(())
-    }
+    arithmatic_parser(&mut prog, &mut stack)?;
+
+    Ok(())
 }
 
 fn arithmatic_parser(prog: &mut Vec<String>, stack: &mut TokenStack) -> Result<(), ParserErrors> {
-    let _ers: Vec<ParserErrors> = vec![];
+    let mut ers: Vec<ParserErrors> = vec![];
     while !prog.is_empty() {
-        stack.push(prog.remove(0 as usize))?
+        match stack.push(prog.remove(0_usize)) {
+            Ok(_) => continue,
+            Err(err) => ers.push(err)
+        }
     }
-    Ok(())
+    if !ers.is_empty() { Err(ers[0].clone()) }
+    else { Ok(()) }
 }
