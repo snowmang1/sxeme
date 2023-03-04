@@ -1,29 +1,38 @@
 use super::error_matrix::ParserErrors;
 
+
+#[derive(Debug, PartialEq, Clone)]
 enum Type { Number, Plus, Minus, Divide, Multiply, Handle }
 
-pub struct Token { lexeme: String, my_type: Type }
+#[derive(Debug, PartialEq, Clone)]
+struct Token { lexeme: String, my_type: Type }
 /* TODO
  * - overwrite insert & insert_str to create seamless replace
  * - lines 40 & 41
  */
 impl Token {
     fn new(lex: String) -> Result<Token, ParserErrors> {
-        match lex.as_str() {
-            "0" | "1" | "2" | "3" | "4" | "5" |
-                "6" | "7" | "8" | "9" => Ok( Token { lexeme: lex, my_type: Type::Number }),
-            "(" | ")" => Ok( Token { lexeme: lex, my_type: Type::Handle }),
-            "+" => Ok( Token { lexeme: lex, my_type: Type::Plus }),
-            "-" => Ok( Token { lexeme: lex, my_type: Type::Minus }),
-            "/" => Ok( Token { lexeme: lex, my_type: Type::Divide }),
-            "*" => Ok( Token { lexeme: lex, my_type: Type::Multiply } ),
-            _ => Err(ParserErrors::BadSymbol), // error
+        let mut ret: Option<Token> = None;
+        for c in lex.chars() { // find operator and decide based on operators definition
+            ret = match c {
+                '0' | '1' | '2' | '3' | '4' | '5' |
+                    '6' | '7' | '8' | '9' => Some (Token { lexeme: lex, my_type: Type::Number}),
+                '(' | ')' => Some (Token { lexeme: lex, my_type: Type::Handle}),
+                '+' => Some (Token { lexeme: lex, my_type: Type::Plus }),
+                '-' => Some (Token { lexeme: lex, my_type: Type::Minus }),
+                '/' => Some (Token { lexeme: lex, my_type: Type::Divide }),
+                '*' => Some (Token { lexeme: lex, my_type: Type::Multiply }),
+                _ => continue
+            };
+            break;
         }
+        match ret { Some(ok) => Ok(ok), _ => Err(ParserErrors::BadSymbol) }
     }
+    fn as_str(&self) -> &str { self.lexeme.as_str() }
 }
 
 #[derive(Default, Debug, PartialEq, Clone)]
-pub struct TokenStack { stack: Vec<String>, delim_count: u32 }
+pub struct TokenStack { stack: Vec<Token>, delim_count: u32 }
 /* This stack works as a stack from the end only
  * The top of the stack = stack.len()-1
  * The stack should keep a custom type that denotes these
@@ -34,12 +43,18 @@ pub struct TokenStack { stack: Vec<String>, delim_count: u32 }
 
 #[allow(dead_code)]
 impl TokenStack {
-    fn init(st: Vec<String>, o: u32) -> Self { TokenStack { stack: st, delim_count: o } }
+    fn init(st: Vec<String>, delim_count: u32) -> Result<Self, ParserErrors> {
+        let mut stack: Vec<Token> = vec![];
+        for lexeme in st {
+            stack.push(Token::new(lexeme)?);
+        }
+        Ok(TokenStack { stack, delim_count })
+    }
     // above is DEBUG use only
     pub fn push(&mut self, lex: String) -> Result<(), ParserErrors>{
         match lex.as_str() {
             "(" => { // state 1
-                self.stack.push(lex);
+                self.stack.push(Token::new(lex)?);
                 self.delim_count+=1;
                 Ok(())
             }
@@ -49,7 +64,7 @@ impl TokenStack {
                 loop {
                     if self.stack.is_empty() { err = ParserErrors::NoOpeningParen; break }
                     match self.stack[self.stack.len()-1].as_str() {
-                        "(" => { accum.insert(0, '('); self.stack.pop(); self.stack.push(accum); break },
+                        "(" => { accum.insert(0, '('); self.stack.pop(); self.stack.push(Token::new(accum)?); break },
                         ind => { accum.insert_str(0, ind); self.stack.pop(); }
                     }
                 }
@@ -60,19 +75,19 @@ impl TokenStack {
                 }
             }
             "+" => { // state 2 operation
-                self.stack.push(lex);
+                self.stack.push(Token::new(lex)?);
                 Ok(())
             }
             "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" => { // state 3
-                self.stack.push(lex);
+                self.stack.push(Token::new(lex)?);
                 Ok(())
             }
             _   => Err(ParserErrors::UnknownSymbol(lex))
         }
     }
 
-    pub fn pop(&mut self) -> String {
-        match self.stack.pop() { None => String::from("stack empty"), Some(s) => s }
+    pub fn pop(&mut self) -> Result<String, ParserErrors> {
+        match self.stack.pop() { None => Err(ParserErrors::TokenStackEmpty), Some(s) => Ok(String::from(s.as_str())) }
     }
     pub fn len(&self) -> usize {
         self.stack.len()

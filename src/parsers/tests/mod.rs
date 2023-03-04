@@ -37,7 +37,7 @@ fn test_arith_reduce_1() {
     let result = arithmatic_parser(&mut test_prog, &mut tok);
     assert_eq!(result, Ok(()));
     assert_eq!(test_prog, expected_prog);
-    let top = tok.pop();
+    let top = tok.pop().unwrap();
     assert_eq!(top, String::from("(+12)"))
 }
 
@@ -46,8 +46,8 @@ fn test_arith_ignore_extra_paren() {
     let mut test_prog: Vec<String> = mk_svec(vec!["(", "(", "+", "1", "2", ")"]);
     let mut tok: TokenStack = Default::default();
     arithmatic_parser(&mut test_prog, &mut tok).unwrap();
-    assert_eq!(tok.pop().as_str(), "(+12)");
-    assert_eq!(tok.pop().as_str(), "(");
+    assert_eq!(tok.pop().unwrap().as_str(), "(+12)");
+    assert_eq!(tok.pop().unwrap().as_str(), "(");
 }
 
 #[test]
