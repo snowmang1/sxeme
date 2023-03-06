@@ -29,6 +29,10 @@ impl Token {
         match ret { Some(ok) => Ok(ok), _ => Err(ParserErrors::BadSymbol) }
     }
     fn as_str(&self) -> &str { self.lexeme.as_str() }
+
+    // below is for testing only
+    #[allow(dead_code)]
+    fn has_type(&self) -> Type { self.my_type.clone() }
 }
 
 #[derive(Default, Debug, PartialEq, Clone)]
