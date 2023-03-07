@@ -1,6 +1,6 @@
 [package]
 name = "sxeme"
-version = "0.1.0"
+version = "0.1.5"
 edition = "2021"
 authors = ["Evan Drake <evanmdrake@icloud.com>"]
 description = "Scheme (r7rs) based compiler"
