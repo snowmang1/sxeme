@@ -1,0 +1,35 @@
+on:
+  push:
+  pull_request:
+
+name: Checks
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  lint:
+    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: clippy, rustfmt
+      - name: Clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+      - name: Fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
