@@ -1,3 +1,4 @@
+[![codecov](https://codecov.io/gh/snowmang1/sxeme/branch/10-pipeline-creation/graph/badge.svg?token=zzQXFKk7BD)](https://codecov.io/gh/snowmang1/sxeme)
 
 ## Description
 - Scheme Compiler written in Rust, compiled to LLVM
