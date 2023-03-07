@@ -2,52 +2,28 @@ on:
   push:
   pull_request:
 
-name: check & lint
+name: Check
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check:
-    name: Check
-    runs-on: macos
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: check
-  fmt:
-    name: Rustfmt
-    runs-on: macos
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly
-          override: true
-      - run: rustup component add rustfmt
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
-  clippy:
-    name: Clippy
+  lint:
+    
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v3
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
-          components: clippy
           override: true
-      - uses: actions-rs/clippy-check@v1
+          components: clippy
+      - name: Clippy
+        uses: actions-rs/cargo@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features
-          name: Clippy Output
+          command: clippy
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
