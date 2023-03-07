@@ -12,6 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install nightly
+      run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh \
+        rustup toolchain install nightly && rustup default nightly && rustup update
     - name: Build
       run: cargo build --verbose
     - name: Run tests
