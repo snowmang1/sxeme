@@ -7,4 +7,8 @@
 - Linear IR (extra time will be needed here)
 - LLVM
 
+## Testing
+- [cargo-llvm-cov](https://github.com/taiki-e/cargo-llvm-cov.git)
+    - utilizting built-in llvm code analytics
+
 ### Full Descriptions and updates will be given on my blog in long form
