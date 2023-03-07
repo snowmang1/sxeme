@@ -12,9 +12,8 @@ struct Token { lexeme: String, my_type: Type }
  */
 impl Token {
     fn new(lex: String) -> Result<Token, ParserErrors> {
-        let ret: Option<Token>;
         let mut err: Vec<ParserErrors> = vec![];
-        ret = match lex.clone().pop().unwrap() {
+        let ret: Option<Token> = match lex.clone().pop().unwrap() {
             '0' | '1' | '2' | '3' | '4' | '5' |
                 '6' | '7' | '8' | '9' => Some (Token { lexeme: lex, my_type: Type::Number}),
             '(' | ')' => Some (Token { lexeme: lex, my_type: Type::Handle}),
