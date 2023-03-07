@@ -31,6 +31,7 @@ fn arithmatic_parser(prog: &mut Vec<String>, stack: &mut TokenStack) -> Result<(
             Err(err) => ers.push(err)
         }
     }
+    stack.block_finished()?;
     if !ers.is_empty() { Err(ers[0].clone()) }
     else { Ok(()) }
 }
