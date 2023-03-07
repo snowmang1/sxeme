@@ -1,8 +1,6 @@
 name: Rust
 
-on:
-  push:
-    branches: all
+on: [ push ]
 
 env:
   CARGO_TERM_COLOR: always
