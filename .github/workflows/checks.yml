@@ -2,7 +2,7 @@ on:
   push:
   pull_request:
 
-name: Check
+name: Checks
 
 env:
   CARGO_TERM_COLOR: always
@@ -23,7 +23,13 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
+          args: -- -D warnings
       - name: Test
         uses: actions-rs/cargo@v1
         with:
           command: test
+      - name: Fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check

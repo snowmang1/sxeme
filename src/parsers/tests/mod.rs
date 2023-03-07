@@ -1,8 +1,7 @@
-
 mod helpers;
 
-use helpers::*;
 use super::*;
+use helpers::*;
 
 #[test]
 fn test_arith_empty() {
@@ -23,7 +22,7 @@ fn test_arith_reduce_1() {
     let mut tok: TokenStack = Default::default();
     let result = setup_arith_parsers(mk_svec(vec!["(", "+", "1", "2", ")"]), &mut tok);
     assert_eq!(result, Ok(()));
-    let top = tok.pop().unwrap();           // get the top of the stack
+    let top = tok.pop().unwrap(); // get the top of the stack
     assert_eq!(top, String::from("(+12)"))
 }
 
