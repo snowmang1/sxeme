@@ -20,8 +20,9 @@ jobs:
         uses: taiki-e/install-action@cargo-llvm-cov
 
       # generate code coverage
-      - name: Generate code coverage
+      - name: Generate scanner code coverage
         run: cargo llvm-cov test scanner --ignore-filename-regex "parsers|main" --all-features --workspace --lcov --output-path scanner.info
+      - name: Generate parsers code coverage
         run: cargo llvm-cov test parsers --ignore-filename-regex "scanner|main" --all-features --workspace --lcov --output-path parsers.info
         # add further generation here
 
