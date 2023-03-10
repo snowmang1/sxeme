@@ -18,10 +18,25 @@ jobs:
           components: clippy
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
+
+      # generate code coverage
       - name: Generate code coverage
-        run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
-      - name: Upload coverage to Codecov
+        run: cargo llvm-cov test scanner --ignore-filename-regex "parsers|main" --all-features --workspace --lcov --output-path scanner.info
+        run: cargo llvm-cov test parsers --ignore-filename-regex "scanner|main" --all-features --workspace --lcov --output-path parsers.info
+        # add further generation here
+
+      # upload test stats to codecov.io
+      - name: Upload scanner coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: lcov.info
+          flags: scanner
+          files: scanner.info
           fail_ci_if_error: true
+          verbose: true
+      - name: Upload parser coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: parser
+          files: parsers.info
+          fail_ci_if_error: true
+          verbose: true
