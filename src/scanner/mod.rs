@@ -7,6 +7,7 @@
  *
  * NOTE
  * as this file gets bigger add files to this module
+ * general lex objects can be added to declaratively find handles
 */
 use std::fs::File;
 use std::io::{BufRead, BufReader};
