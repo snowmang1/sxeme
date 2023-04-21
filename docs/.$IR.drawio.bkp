@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-04-15T19:12:50.732Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="Id-g4Y0tuiZqVv9Axxrw" version="21.1.2" type="device">
+<mxfile host="Electron" modified="2023-04-15T19:13:00.425Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="6QlrDsElS90xbTvx8Pbt" version="21.1.2" type="device">
   <diagram name="Page-1" id="36F9rlrM38JCpQ32hNjS">
     <mxGraphModel dx="4034" dy="2134" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -215,7 +215,7 @@
         <mxCell id="Lzowb4L89PZGFx9Adz13-42" value="add -5 |" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-1478" y="651" width="301.53" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Lzowb4L89PZGFx9Adz13-43" value="&lt;h1&gt;Arithmetic&lt;/h1&gt;&lt;div&gt;- We do not follow the order of operation, merely the order the programer has defined with their delimiters.&lt;/div&gt;&lt;div&gt;- examples are done with single digit integers but algorithm will work for any numeric type&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="Lzowb4L89PZGFx9Adz13-43" value="&lt;h1&gt;Arithmetic&lt;/h1&gt;&lt;div&gt;- We do not follow the order of operation, merely the order the programer has defined with their delimiters.&lt;/div&gt;&lt;div&gt;- examples are done with single digit integers but algorithm will work for any numeric type theoretically&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-1225" y="-449" width="339" height="182" as="geometry" />
         </mxCell>
       </root>
