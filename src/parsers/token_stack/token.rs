@@ -2,12 +2,16 @@ use crate::parsers::error_matrix::ParserErrors;
 use crate::parsers::token_stack::translate_error::TranslationErrors;
 
 #[derive(Debug, PartialEq, Clone)]
-pub enum Type {
-    Number,         // i32
+pub enum Operation {
     Plus,           // operation
     Minus,
     Divide,
     Multiply,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum Type {
+    Number,         // i32
     Handle,         // static analysis
 }
 
@@ -15,6 +19,7 @@ pub enum Type {
 pub struct Token {
     lexeme: String,
     my_type: Type,
+    op: Option<Operation>,
 }
 
 impl Token {
@@ -24,31 +29,53 @@ impl Token {
             '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => Some(Token {
                 lexeme: lex,
                 my_type: Type::Number,
+                op: None,
             }),
-            '(' | ')' => Some(Token {
+            '(' => {
+                if lex.len() <= 1 {
+                    Some(Token{lexeme: lex, my_type: Type::Handle, op: None})
+                }
+                else { // itterate to verify operation presence
+                    for (i, c) in lex.chars().enumerate() {
+                        match c {
+                            
+                        }
+                    }
+                }
+            },
+                /* The correct typing is not obvious here lex should be iterated over in order to
+                 * assure validity. 
+                 * This also means a separation of ( & )
+                */
+            ')' => Some(Token {
                 lexeme: lex,
                 my_type: Type::Handle,
+                op: None,
             }),
             '+' => Some(Token {
                 lexeme: lex,
-                my_type: Type::Plus,
+                my_type: Type::Number,
+                op: Some(Operation::Plus),
             }),
             '-' => Some(Token {
                 lexeme: lex,
-                my_type: Type::Minus,
+                my_type: Type::Number,
+                op: Some(Operation::Minus),
             }),
             '/' => Some(Token {
                 lexeme: lex,
-                my_type: Type::Divide,
+                my_type: Type::Number,
+                op: Some(Operation::Divide),
             }),
             '*' => Some(Token {
                 lexeme: lex,
-                my_type: Type::Multiply,
+                my_type: Type::Number,
+                op:  Some(Operation::Multiply),
             }),
             _ => {
                 err.push(ParserErrors::BadSymbol);
                 None
-            } // CHANGE
+            },
         };
         match ret {
             Some(ok) => Ok(ok),
@@ -56,29 +83,40 @@ impl Token {
         }
     }
 
-    pub fn translate(&self) -> Result<String, TranslationErrors> {
+    pub fn translate(&self, temp_mangle: &mut (String, i32)) -> Result<String, TranslationErrors> {
         let mut prog : String = String::from("define i32 @main(){\n");        // llvm requires a main function to exist for an entrypoint
-        match &self.my_type {
-            Type::Number => unimplemented!(),
-            Type::Plus => {
-                prog.push_str(r"\%x0 = i32 ");
+        match self.op {
+            Some(Operation::Plus) => {
                 for (i, char) in self.lexeme.chars().enumerate() {
-                    prog.push_str("\n");
+                    match char {
+                        x if (x=='1' || x=='2' || x=='3' || x=='4' || x=='5' || x=='6' || x=='7' || x=='8' || x=='9' || x=='0') && i!=0 => break,
+                        x if (x=='1' || x=='2' || x=='3' || x=='4' || x=='5' || x=='6' || x=='7' || x=='8' || x=='9' || x=='0') && i==0 => {
+                            let mut line = String::from('%');
+                            line.push_str(&temp_mangle.0.clone());
+                            line.push_str(&temp_mangle.1.to_string().clone());
+                            temp_mangle.1 += 1;
+                            line.push_str("= i32 ");
+                            line.push(x);
+                            line.push('\n');
+                        },
+                        _ => (),
+                    }
                 }
             },
-            Type::Minus => unimplemented!(),
-            Type::Divide => unimplemented!(),
-            Type::Multiply => unimplemented!(),
-            _ => panic!("attempt to convert a handle"),
+            Some(Operation::Minus) => unimplemented!(),
+            Some(Operation::Divide) => unimplemented!(),
+            Some(Operation::Multiply) => unimplemented!(),
+            _ => (),
         }
         prog.push('}');
-        Err(TranslationErrors::Error)
+        Ok(prog)
     }
 
     pub fn formed(lex: String, output_type: Type) -> Token {
         Token {
             lexeme: lex,
             my_type: output_type,
+            op: None,
         }
     }
     pub fn as_str(&self) -> &str {
@@ -98,6 +136,7 @@ mod tests {
             Token {
                 lexeme: String::from("0"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("1"));
@@ -106,6 +145,7 @@ mod tests {
             Token {
                 lexeme: String::from("1"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("2"));
@@ -114,6 +154,7 @@ mod tests {
             Token {
                 lexeme: String::from("2"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("3"));
@@ -122,6 +163,7 @@ mod tests {
             Token {
                 lexeme: String::from("3"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("4"));
@@ -130,6 +172,7 @@ mod tests {
             Token {
                 lexeme: String::from("4"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("5"));
@@ -138,6 +181,7 @@ mod tests {
             Token {
                 lexeme: String::from("5"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("6"));
@@ -146,6 +190,7 @@ mod tests {
             Token {
                 lexeme: String::from("6"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("7"));
@@ -154,6 +199,7 @@ mod tests {
             Token {
                 lexeme: String::from("7"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("8"));
@@ -162,6 +208,7 @@ mod tests {
             Token {
                 lexeme: String::from("8"),
                 my_type: Type::Number,
+                op: None,
             }
         );
         let new_token = Token::new(String::from("9"));
@@ -170,6 +217,7 @@ mod tests {
             Token {
                 lexeme: String::from("9"),
                 my_type: Type::Number,
+                op: None,
             }
         );
     }
@@ -181,7 +229,8 @@ mod tests {
             new_token.unwrap(),
             Token {
                 lexeme: String::from("+"),
-                my_type: Type::Plus,
+                my_type: Type::Number,
+                op: Some(Operation::Plus),
             }
         );
     }
@@ -193,7 +242,8 @@ mod tests {
             new_token.unwrap(),
             Token {
                 lexeme: String::from("-"),
-                my_type: Type::Minus,
+                my_type: Type::Number,
+                op: Some(Operation::Minus),
             }
         );
     }
@@ -205,7 +255,8 @@ mod tests {
             new_token.unwrap(),
             Token {
                 lexeme: String::from("/"),
-                my_type: Type::Divide,
+                my_type: Type::Number,
+                op: Some(Operation::Divide),
             }
         );
     }
@@ -217,7 +268,8 @@ mod tests {
             new_token.unwrap(),
             Token {
                 lexeme: String::from("*"),
-                my_type: Type::Multiply,
+                my_type: Type::Number,
+                op: Some(Operation::Multiply),
             }
         );
     }
@@ -230,6 +282,7 @@ mod tests {
             Token {
                 lexeme: String::from("("),
                 my_type: Type::Handle,
+                op: None,
             }
         );
         let new_token = Token::new(String::from(")"));
@@ -238,6 +291,7 @@ mod tests {
             Token {
                 lexeme: String::from(")"),
                 my_type: Type::Handle,
+                op: None,
             }
         );
     }

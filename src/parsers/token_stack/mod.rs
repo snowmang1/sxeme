@@ -87,7 +87,7 @@ impl TokenStack {
             Ok(s) => s,
             Err(_) => panic!("token translation error")
         };
-        top.translate()
+        top.translate(&mut (String::from('x'), 0))
     }
 
     // function called after block is finished or eof
@@ -157,5 +157,18 @@ mod test {
         let mut stack = TokenStack::init(vec![], 0).unwrap();
         assert_eq!(stack.pop(), Err(ParserErrors::TokenStackEmpty));
         assert_eq!(stack.pop_tok(), Err(ParserErrors::TokenStackEmpty))
+    }
+
+    #[test]
+    fn translation_addition_0() {
+        let mut stack = TokenStack::init(vec![], 0).expect("stack failed to initialize");
+        stack.push(String::from("(")).unwrap();
+        stack.push(String::from("+")).unwrap();
+        stack.push(String::from("1")).unwrap();
+        stack.push(String::from("2")).unwrap();
+        stack.push(String::from(")")).unwrap();
+        let assembly: String = stack.pop_tok().expect("token pop fail")
+            .translate(&mut (String::from("x"), 0)).expect("token translate fail");
+        println!("{}", assembly);
     }
 }
