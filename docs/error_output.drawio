@@ -1,0 +1,38 @@
+<mxfile host="Electron" modified="2023-05-16T05:46:08.381Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="2NoFMoBfkKrc3Yi1hUB-" version="21.2.8" type="device">
+  <diagram name="Page-1" id="DU3HnJVlQ-_E5YAS8m8q">
+    <mxGraphModel dx="1217" dy="1110" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-1" value="(&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;+&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;1&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;a&lt;span style=&quot;white-space: pre;&quot;&gt;	&lt;/span&gt;)" style="text;strokeColor=none;fillColor=none;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-42" y="-30" width="321" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-2" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;entryX=0.391;entryY=0.983;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.504;exitY=-0.048;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="L2NmIwnOzAwfmtdtYmQ8-3" target="L2NmIwnOzAwfmtdtYmQ8-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="84" y="56" as="sourcePoint" />
+            <mxPoint x="225" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-3" value="the &#39;+&#39; function has type (numeric....) -&amp;gt; numeric" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-96" y="53" width="356" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-4" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;entryX=0.615;entryY=1.017;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#e51400;strokeColor=#B20000;" edge="1" parent="1" target="L2NmIwnOzAwfmtdtYmQ8-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="158" y="130" as="sourcePoint" />
+            <mxPoint x="225" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-5" value="the symbol &#39;a&#39; does not have type &#39;numeric&#39; and therefore does not comply with type signiture of function &#39;+&#39;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" vertex="1" connectable="0" parent="L2NmIwnOzAwfmtdtYmQ8-4">
+          <mxGeometry x="-0.8787" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L2NmIwnOzAwfmtdtYmQ8-6" value="A possible solution is to change symbol &#39;a&#39; to a symbol with numeric type signiture." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" vertex="1" connectable="0" parent="L2NmIwnOzAwfmtdtYmQ8-4">
+          <mxGeometry x="-0.8787" relative="1" as="geometry">
+            <mxPoint x="-4" y="42" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,7 +1,10 @@
 pub mod error_matrix;
+
+
+mod token_stack;
+
 #[cfg(test)]
 mod tests;
-mod token_stack;
 
 use crate::scanner;
 use error_matrix::ParserErrors;
