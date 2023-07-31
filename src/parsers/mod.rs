@@ -1,6 +1,4 @@
 pub mod error_matrix;
-
-
 mod token_stack;
 
 #[cfg(test)]
@@ -10,10 +8,8 @@ use crate::scanner;
 use error_matrix::ParserErrors;
 use token_stack::TokenStack;
 
-// TODO
-// move parsers to own file
-#[allow(dead_code)]
-fn parse_driver(prog_name: String) -> Result<(), ParserErrors> {
+/// drivers all parsers on a given file
+pub fn parse_driver(prog_name: String) -> Result<(), ParserErrors> {
     let mut stack: TokenStack = Default::default();
     let mut prog: Vec<String> = match scanner::get_prog(&prog_name) {
         Ok(ok) => ok,

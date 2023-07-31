@@ -14,8 +14,7 @@ pub struct TokenStack {
 }
 
 /* This stack works as a stack from the end only
- * The top of the stack = stack.len()-1
- * The stack should keep a custom type that denotes these
+ * The top of the stack = stack.len()-1 The stack should keep a custom type that denotes these
  * const: integer(i64), number(double32), complex(i32) < 0, real(u32), rational(u32)
  * handle: (), {}, []
  * key: +, -, \, *, modulo, ceiling, abs, denominator, square, quotient, gcd, expt, lcm

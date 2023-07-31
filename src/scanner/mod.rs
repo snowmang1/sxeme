@@ -15,6 +15,7 @@ use std::io::{BufRead, BufReader};
 #[cfg(test)]
 mod tests;
 
+/// main scanning methed
 pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error> {
     let mut prog: Vec<String> = vec![];
     let mut comment: bool = false;
@@ -31,7 +32,7 @@ pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error> {
                     Ok(s) if s.is_empty() => break,
                     Err(err) => panic!("buf.lines Err: {err}"),
                     _ => {
-                        let (v, temp_comment) = &mut filter_spaces(&line.unwrap()).to_owned();
+                        let (v, temp_comment) = &mut filter(&line.unwrap()).to_owned();
                         comment = temp_comment.to_owned();
                         prog.append(v)
                     }
@@ -42,11 +43,12 @@ pub fn get_prog(filename: &String) -> Result<Vec<String>, std::io::Error> {
     Ok(prog)
 }
 
-fn filter_spaces(str: &str) -> (Vec<String>, bool) {
+/// filters comments from lexemes
+fn filter(str: &str) -> (Vec<String>, bool) {
     let mut ret: Vec<String> = Vec::new(); // vector of lexeme
-    let mut word = String::new(); // lexeme buffer
-    let mut comment_flag: u8 = 0; // flag for block comments
-                                  // 0 -> no comment | 1 -> beging of block comment | 2 -> mid comment | 3 -> beging of closing block comment
+    let mut word = String::new();   // lexeme buffer
+    let mut comment_flag: u8 = 0;   // flag for block comments
+                                    // 0 -> no comment | 1 -> beging of block comment | 2 -> mid comment | 3 -> beging of closing block comment
     for c in str.chars() {
         match c {
             ' ' => {
